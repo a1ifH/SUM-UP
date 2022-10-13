@@ -7,14 +7,14 @@
 
 ## SECTION A
 
-|                     |                   |
-|---------------------|-------------------|
-|Project Title:       | xxxxxx            |
-|Student 1 Name:      | xxxxxx            |
-|Student 1 ID:        | xxxxxx            |
-|Student 2 Name:      | xxxxxx            |
-|Student 2 ID:        | xxxxxx            |
-|Project Supervisor:  | xxxxxx            |
+|                     |                       |
+|---------------------|-----------------------|
+|Project Title:       | SUM-UP                |
+|Student 1 Name:      | Muhammad Zubair Asif  |
+|Student 1 ID:        | 18314236              |
+|Student 2 Name:      | Alif Hossain          |
+|Student 2 ID:        | xxxxxx                |
+|Project Supervisor:  | Prof. Gareth Jones    |
 
 > Ensure that the Supervisor formally agrees to supervise your project; this is only recognised once the
 > Supervisor assigns herself/himself via the project Dashboard.
