@@ -33,63 +33,55 @@
 
 ### Introduction
 
-> Describe the general area covered by the project.
+> For our 4th year project we decided to focus on summarization. Reading a summary helps us discover our areas of interest and provides a quick context for the tale. Why not employ technology such as natural language processing (NLP), artificial intelligence and machine learning to create summaries without the need for human intervention? A text can be summarised in two ways: extractive (hand-picking any key sentence and adding it to the summary as is) and abstractive (It is more like how humans summarise a piece of text, understanding and analysing the article.)
 
 ### Outline
 
-> Outline the proposed project.
+> Our project is to develop a web application that provides features such as text summarization, along with video captioning summarization. We are also looking to provide additional features that allow the user to control the type of summarization(abstract or extract) they want and their desired size for the summarization.
 
 ### Background
 
-> Where did the ideas come from?
+> We both experienced the incident of “I don't need the full report, just provide me with a summary” during secondary school, university & during our internships. We noticed that in most cases lecturers/instructors/managers would want brief but informative summary instead of a full report. So we decided to create an application that handles this task for us. 
+Prior to this we had a variety of different ideas which did not connect with us as much as this one as it is so universally relevant. We did further research on both the topic and the supervisor. During this process we came across Prof. Gareth Jones and decided to book a meeting with him. We concluded that his expertise in our project field would help us exponentially in successfully completing the project. 
+
 
 ### Achievements
 
-> What functions will the project provide? Who will the users be?
+> Our goal is to allow the user to successfully summarise any report, article or video to their desired method or size. Our target audience is anyone from the ages of 15 and above. 
+
 
 ### Justification
 
-> Why/when/where/how will it be useful?
+> It will be useful because it simplifies the task of summary which can be difficult if the material is lengthy or complex in nature. This project can be used whenever a user needs to summarise any text or video file. This application will be useful for users in any sector and field. 
+
 
 ### Programming language(s)
 
-> List the proposed language(s) to be used.
+> The languages and tools we plan on potentially using are Python, JavaScript, HTML & CSS, Flask, Docker, MongoDB/Firebase & Shell. We hope to include various science and technologies such as artificial intelligence, machine learning & natural language processing.
+
 
 ### Programming tools / Tech stack
 
-> Describe the compiler, database, web server, etc., and any other software tools you plan to use.
+> Windows, MongoDB/Firebase, Git, IIS/Apache HTTP Server, Jupyter Notebook, Visual Studio Code.
 
 ### Hardware
 
-> Describe any non-standard hardware components which will be required.
+> Access to computer & internet
 
 ### Learning Challenges
 
-> List the main new things (technologies, languages, tools, etc) that you will have to learn.
+> We will have to both get familiar with JavaScript again as both have a basic understanding but would like to be more advanced at it. We have not done much of Machine Learning in the past therefore we must complete thorough research and study. 
 
 ### Breakdown of work
 
-> Clearly identify who will undertake which parts of the project.
->
-> It must be clear from the explanation of this breakdown of work both that each student is responsible for
-> separate, clearly-defined tasks, and that those responsibilities substantially cover all of the work required
-> for the project.
+> The breakdown of this project are as follows: Proposal, a proposal for approval, Complete Functional Specification, Final delivery of all project materials(source code, video walkthrough, project documentation, Guidance on testing, incl results).
+
 
 #### Student 1
 
-> *Student 1 should complete this section.*
+> Zubair is doing a proposal for approval. Contributing in functional contribution, Doing source code, contributing in testing. Doing video walkthrough.
 
 #### Student 2
 
-> *Student 2 should complete this section.*
-
-## Example
-
-> Example: Here's how you can include images in markdown documents...
-
-<!-- Basically, just use HTML! -->
-
-<p align="center">
-  <img src="./res/cat.png" width="300px">
-</p>
+> Alif is doing proposals, contributing in proposals for approval, contributing in functional contribution, contributing in source code, contributing in project documentation and testing.
 
