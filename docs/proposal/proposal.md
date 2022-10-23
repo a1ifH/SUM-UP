@@ -19,26 +19,34 @@
 
 ### Introduction
 
-> For our 4th year project we decided to focus on summarization. Reading a summary helps us discover our areas of interest and provides a quick context for the tale. Why not employ technology such as natural language processing (NLP), artificial intelligence and machine learning to create summaries without the need for human intervention? A text can be summarised in two ways: extractive (hand-picking any key sentence and adding it to the summary as is) and abstractive (It is more like how humans summarise a piece of text, understanding and analysing the article.)
+> For this project we decided to primarily focus on summarization, more specifically audio summarization. Reading a summary helps us discover our areas of interest and provides a quick context for the tale. Why not employ technology such as natural language processing , artificial intelligence and machine learning to create summaries without the need for human intervention? Data can be summarised in two ways: extractive (hand-picking any key sentence and adding it to the summary as is) and abstractive (It is more like how humans summarise a piece of information, understanding and analysing the data.)
 
 ### Outline
 
-> Our project is to develop a web application that provides features such as text summarization, along with video captioning summarization. We are also looking to provide additional features that allow the user to control the type of summarization(abstract or extract) they want and their desired size for the summarization.
+> Our project is to develop a web application with a user-friendly UI that allows anyone to use and summarise primarily audio and an optional feature of text. This will all be done through the use of machine learning and AI. We will further incorporate a user account login where they can view and manage their past summaries. We are also hoping to provide additional features that will allow the user to control the type of summarization which can be either abstract or extract based on their requirements. They would further be able to control the length and the amount if desired. In order to really test our application we’ve been given guidance into using Spotify Podcast Dataset.
+
 
 ### Background
 
-> We both experienced the incident of “I don't need the full report, just provide me with a summary” during secondary school, university & during our internships. We noticed that in most cases lecturers/instructors/managers would want brief but informative summary instead of a full report. So we decided to create an application that handles this task for us. 
+> We both experienced the incident of “I don't need the full report, just provide me with a summary” during secondary school, university & during our internships. We noticed that in most cases lecturers/instructors/managers would want a brief but informative summary instead of a full report due to time, efficiency or perhaps just their unwillingness to read the long documents. During covid-19 lockdown as most of our lectures were online we also wished there was a tool for us to use where we could summarise the audio component. So we decided to create an application that handles this task for us. Manual summarization can be a challenge when it comes to very large documents and reports. 
+
 Prior to this we had a variety of different ideas which did not connect with us as much as this one as it is so universally relevant. We did further research on both the topic and the supervisor. During this process we came across Prof. Gareth Jones and decided to book a meeting with him. We concluded that his expertise in our project field would help us exponentially in successfully completing the project. 
+
 
 
 ### Achievements
 
-> Our goal is to allow the user to successfully summarise any report, article or video to their desired method or size. Our target audience is anyone from the ages of 15 and above. 
+> Our goal and what we hope to deliver in terms of a demo is to complete a working web application that allows users to visit and have the ability to login/register and perform their desired summarization by uploading their media which they want summarised. Once the media is uploaded the user will then be able to control and specify the type of summarization (either extractive and abstractive) that they would like also including length. Once all options and filters have been specified the user can hit the summarise button and will be able to view the result on the same screen which they could export to another media file if desired.
+
+Our target audience is any user regardless of age or background who would like to perform summarization on a compatible media option.
+
 
 
 ### Justification
 
-> It will be useful because it simplifies the task of summary which can be difficult if the material is lengthy or complex in nature. This project can be used whenever a user needs to summarise any text or video file. This application will be useful for users in any sector and field. 
+> All authors must simplify their points of discussion in order to articulate their points clearly.
+This also makes it simpler for readers to understand your argument because they won't have to wade through lengthy pages of material in order to figure out what your thesis statement was about. You may quickly and efficiently summarise your ideas via summarization, which prevents information overload or the loss of key information about what you planned to convey. Summarising is a fantastic technique to add depth and credibility to your writing. It provides you with various perspectives on your topic. It can aid in better time management when producing a report or article. Furthermore, summarisation conserves material in an article or book chapter by compressing concepts without sacrificing their relevance for the audience. Moreover, summarising makes information accessible to those who might not be specialists in your field of study. This application will be useful in situations where the user must summarise information.
+
 
 
 ### Programming language(s)
@@ -56,7 +64,26 @@ Prior to this we had a variety of different ideas which did not connect with us 
 
 ### Learning Challenges
 
-> We will have to both get familiar with JavaScript again as both have a basic understanding but would like to be more advanced at it. We have not done much of Machine Learning in the past therefore we must complete thorough research and study. 
+> The main challenges for this project…
+>Extractive VS Abstractive
+There is a stark difference between both these summarization methods especially in the difficulty in implementation.
+Typically the extractive method is simpler compared to the abstractive method
+
+Understanding & Utilising the numerous algorithms for Extractive 
+There are various potential algorithms for extractive summarization such as TextRank, LexRank, Luhn, Latent Semantic Analysis & KL-Sum. The challenge is to incorporate a number of these algorithms into our project in order to get the best results.
+
+Understanding & Utilising the numerous transformers for Abstractive
+After our initial proposal presentation we were advised to look into a platform called HuggingFace by one of the lecturers. This platform has a transformers library that provides models which aid in abstractive summarization. Some common models are GPT-2, GPT-3, BERT , OpenAI, GPT, T5 & XML.
+
+Testing & Evaluation
+We must test to make sure that the summarised material is in fact accurate and relevant.
+For this we could have human based evaluation or automatic based evaluation.
+ROUGE stands for Recall-Oriented Understudy for Gisting Evaluation. It is essentially a set of metrics for evaluating automatic summarization of texts as well as machine translations.
+
+Languages & Frameworks
+We both have low level experience with JavaScript and would ideally need to familiarise ourselves with it more in order to allow our application to work and look the best.
+
+If we decide to take the route of using MongoDB we would have the challenge of learning to use this new tool as we don't have prior experience.
 
 ### Breakdown of work
 
