@@ -98,9 +98,23 @@ This also makes it simpler for readers to understand your argument because they 
 
 #### Student 1
 
-> Zubair is doing a proposal for approval. Contributing in functional contribution, Doing source code, contributing in testing. Doing video walkthrough.
+> Zubair will conduct the following:
+>> * Will focus on the Abstractive Summarization for both the Audio & Text using Transformers etc.
+>> * User Login / Registration
+>> * Perform automatic based evaluation as a form of testing
+>> * Setting up CI/CD
+>> * Contributing in functional Specification
+>> * Doing video walkthrough
+
 
 #### Student 2
 
-> Alif is doing proposals, contributing in proposals for approval, contributing in functional contribution, contributing in source code, contributing in project documentation and testing.
+> Alif will conduct the following
+>> * Conduct research and study of summarization and NLP.
+>> * Test current products and compare results.
+>> * Will focus on the Extractive Summarization for both the Audio & Text.
+>> * Implementing the algorithms for the summarization types of the application.
+>> * Develop a function that allows the user to customise the size of the end summary.
+>> * Write up the ethical approval forms and review the results.
+
 
