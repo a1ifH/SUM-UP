@@ -7,6 +7,7 @@ from flask import Flask, send_from_directory, request, send_file
 from pathlib import Path
 import json
 import spacy
+from celery.result import AsyncResult
 
 app = Flask(__name__, static_folder=None)
 app.config['UPLOAD_FOLDER'] = Path(__file__).absolute().parent / "audios"
@@ -62,6 +63,35 @@ def text_summerizer(text):
 
 
 static_dir = Path(__file__).absolute().parent.parent / "frontend/build"
+
+@app.get("/")
+@app.get("/<path:path>")
+def main_route(path=None):
+    print(f"{path = }")
+    try:
+        if path is not None and (_path := Path(static_dir / path)).is_file():
+            return send_from_directory(static_dir, path)
+    except Exception as e:
+        print(f"error ", e)
+    return send_from_directory(static_dir, "index.html")
+
+
+api = Api(app, doc='/swagger')
+audio_upload = api.model('FormData', {
+    'file': fields.Raw(required=True, type='file', description='Audio file (WAV)'),
+})
+text_upload = api.model('TextUploadResponse', {
+    'text': fields.String()
+})
+text_response = api.model('TextResponse', {
+    'message': fields.String(),
+    'text': fields.String()
+})
+task_tracking_model = api.model("CeleryTaskModel", {
+    "id": fields.String,
+    "status": fields.String,
+    "result": fields.Raw(attribute="_result"),
+}, )
 
 
 @api.route('/summarize')
