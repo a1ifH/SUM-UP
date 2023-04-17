@@ -4,17 +4,20 @@ import speech_recognition as sr
 from flask_restx import Api, Resource, fields
 import jsonschema
 import spacy
+
 from heapq import nlargest
 from flask import Flask, send_from_directory, request, send_file
 
 import json
 from celery.result import AsyncResult
 from gtts import gTTS
+import os
 import docx
 
 app = Flask(__name__, static_folder=None)
 app.config['UPLOAD_FOLDER'] = Path(__file__).absolute().parent / "audios"
 app.config['UPLOAD_FOLDER'].mkdir(exist_ok=True)
+
 
 def validate_form_data(schema):
     def decorator(f):
@@ -36,7 +39,6 @@ def text_summerizer(text):
 
     doc = nlp(text)
 
-
     sentences = [sent for sent in doc.sents if not all(token.is_stop or token.text in punctuations for token in sent)]
     words = [token.text for sent in sentences for token in sent if not token.is_stop and token.text not in punctuations]
 
@@ -47,7 +49,6 @@ def text_summerizer(text):
             word_frequencies[word] = 1
         else:
             word_frequencies[word] += 1
-
 
     max_frequency = max(word_frequencies.values())
     for word in word_frequencies:
@@ -63,7 +64,6 @@ def text_summerizer(text):
     summary = ' '.join(sent.text for sent in summary_sentences)
 
     return summary
-
 
 static_dir = Path(__file__).absolute().parent.parent / "frontend/build"
 
@@ -99,12 +99,14 @@ task_tracking_model = api.model("CeleryTaskModel", {
 
 @api.route('/convert')
 class ConvertResponse(Resource):
+    """Class for audio to text conversion"""
 
     @api.expect(audio_upload)
     @api.doc(consumes=['multipart/form-data'])
     @api.marshal_with(task_tracking_model)
     @validate_form_data(audio_upload)
     def post(self):
+        """Endpoint for audio to text conversion"""
         file = request.files.get('file')
         if not file:
             return {'message': 'No file uploaded'}, 400
@@ -117,7 +119,6 @@ class ConvertResponse(Resource):
             print(file_path)
             file.save(file_path)
             task = recognize_audio.delay(file_path)
-
             return task
 
         except sr.UnknownValueError:
@@ -129,11 +130,13 @@ class ConvertResponse(Resource):
 
 @api.route('/summarize')
 class SummarizedResponse(Resource):
+    """Class for text summarization"""
 
     @api.expect(text_upload)
     @api.marshal_with(text_response)
     @validate_form_data(text_upload)
     def post(self):
+        """Endpoint for text summarization"""
         data = request.json['text']
         try:
             summery = text_summerizer(text=data)
@@ -150,6 +153,7 @@ class SummarizedResponse(Resource):
 
         except Exception as e:
             return {'message': str(e)}, 500
+
 
 @api.route("/task/<task_id>", methods=["GET"])
 class TaskManager(Resource):
@@ -175,6 +179,7 @@ class TaskManager(Resource):
         task._traceback = str(task.traceback)
 
         return task
+
 
 @api.route('/audio/export')
 class AudioExportResponse(Resource):
