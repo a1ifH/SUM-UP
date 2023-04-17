@@ -6,6 +6,7 @@ import jsonschema
 from flask import Flask, send_from_directory, request, send_file
 from pathlib import Path
 import json
+import spacy
 
 app = Flask(__name__, static_folder=None)
 app.config['UPLOAD_FOLDER'] = Path(__file__).absolute().parent / "audios"
@@ -24,3 +25,40 @@ def validate_form_data(schema):
         return wrapper
 
     return decorator
+
+def text_summerizer(text):
+    nlp = spacy.load('en_core_web_sm')
+    punctuations = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~\n'
+
+    doc = nlp(text)
+
+
+    sentences = [sent for sent in doc.sents if not all(token.is_stop or token.text in punctuations for token in sent)]
+    words = [token.text for sent in sentences for token in sent if not token.is_stop and token.text not in punctuations]
+
+    word_frequencies = {}
+    for word in words:
+        word = word.lower()
+        if word not in word_frequencies:
+            word_frequencies[word] = 1
+        else:
+            word_frequencies[word] += 1
+
+
+    max_frequency = max(word_frequencies.values())
+    for word in word_frequencies:
+        word_frequencies[word] /= max_frequency
+
+    sentence_scores = {}
+    for sent in sentences:
+        sentence = sent.text.lower()
+        sentence_scores[sent] = sum(word_frequencies.get(word.text.lower(), 0) for word in sent)
+
+    summary_size = min(3, len(sentences))
+    summary_sentences = nlargest(summary_size, sentence_scores, key=sentence_scores.get)
+    summary = ' '.join(sent.text for sent in summary_sentences)
+
+    return summary
+
+
+static_dir = Path(__file__).absolute().parent.parent / "frontend/build"
