@@ -94,6 +94,36 @@ task_tracking_model = api.model("CeleryTaskModel", {
 }, )
 
 
+@api.route('/convert')
+class ConvertResponse(Resource):
+
+    @api.expect(audio_upload)
+    @api.doc(consumes=['multipart/form-data'])
+    @api.marshal_with(task_tracking_model)
+    @validate_form_data(audio_upload)
+    def post(self):
+        file = request.files.get('file')
+        if not file:
+            return {'message': 'No file uploaded'}, 400
+        if file.filename.split('.')[-1].lower() != 'wav':
+            return {'message': 'Please upload a WAV file'}, 400
+
+        from celery_app import recognize_audio
+        try:
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            print(file_path)
+            file.save(file_path)
+            task = recognize_audio.delay(file_path)
+
+            return task
+
+        except sr.UnknownValueError:
+            return {'message': 'Unable to recognize speech'}, 400
+        except Exception as e:
+            print(e)
+            return {'message': str(e)}, 500
+
+
 @api.route('/summarize')
 class SummarizedResponse(Resource):
 
