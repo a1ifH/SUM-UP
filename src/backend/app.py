@@ -62,3 +62,28 @@ def text_summerizer(text):
 
 
 static_dir = Path(__file__).absolute().parent.parent / "frontend/build"
+
+
+@api.route('/summarize')
+class SummarizedResponse(Resource):
+
+    @api.expect(text_upload)
+    @api.marshal_with(text_response)
+    @validate_form_data(text_upload)
+    def post(self):
+        data = request.json['text']
+        try:
+            summery = text_summerizer(text=data)
+            if summery == "":
+                return {
+                    'message': "Text is no Summarize able",
+                    'text': data
+                }
+            else:
+                return {
+                    'message': "Summarize Successfully",
+                    'text': summery
+                }
+
+        except Exception as e:
+            return {'message': str(e)}, 500
