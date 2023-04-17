@@ -147,3 +147,63 @@ class SummarizedResponse(Resource):
 
         except Exception as e:
             return {'message': str(e)}, 500
+
+@api.route("/task/<task_id>", methods=["GET"])
+class TaskManager(Resource):
+    """Class for task tracking"""
+
+    @api.marshal_with(task_tracking_model)
+    @api.doc(params={
+        'task_id': {'description': 'task id', 'type': 'string', 'required': False}
+    })
+    def get(self, task_id):
+        """Endpoint for task tracking"""
+        from celery_app import celery_app
+        task = AsyncResult(task_id, app=celery_app)
+
+        if task.state == "PENDING":
+            return {'message': 'No file uploaded'}, 400
+
+        try:
+            json.dumps(task.result or {})
+            task._result = task.result
+        except:
+            task._result = str(task.result)
+        task._traceback = str(task.traceback)
+
+        return task
+
+@api.route('/audio/export')
+class AudioExportResponse(Resource):
+    """Class for summarize text audio export"""
+
+    @api.expect(text_upload)
+    @validate_form_data(text_upload)
+    def post(self):
+        """Endpoint for text summarization"""
+        text = request.json['text']
+        tts = gTTS(text)
+        filename = f"{app.config['UPLOAD_FOLDER']}/audio.wav"
+        tts.save(filename)
+        return send_file(filename, mimetype='audio/wav',as_attachment=True)
+
+@api.route('/doc/export')
+class DocumentExportResponse(Resource):
+    """Class for Document text audio export"""
+
+    @api.expect(text_upload)
+    @validate_form_data(text_upload)
+    def post(self):
+        """Endpoint for text summarization"""
+        text = request.json['text']
+        doc = docx.Document()
+        doc.add_paragraph(text)
+
+        filename = f"{app.config['UPLOAD_FOLDER']}/output.docx"
+        doc.save(filename)
+        return send_file(filename,
+                         mimetype='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                         as_attachment=True)
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5005)
