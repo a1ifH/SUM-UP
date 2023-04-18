@@ -37,3 +37,10 @@ def create_celery_app(app):
 
     capp.Task = ContextTask
     return capp
+
+def get_job(job_id, capp):
+
+    return AsyncResult(job_id, app=capp)
+
+
+celery_app = create_celery_app(main_app)
