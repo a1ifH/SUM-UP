@@ -6,6 +6,7 @@ from app import app as main_app
 import speech_recognition as sr
 import spacy
 
+
 def create_celery_app(app):
     capp = Celery(
         "bg_worker",
@@ -30,7 +31,6 @@ def create_celery_app(app):
 
             with capp.app.app_context():
                 try:
-
                     return TaskBase.__call__(self, *args, **kwargs)
                 except BaseException as be:
                     raise (be)
@@ -38,8 +38,8 @@ def create_celery_app(app):
     capp.Task = ContextTask
     return capp
 
-def get_job(job_id, capp):
 
+def get_job(job_id, capp):
     return AsyncResult(job_id, app=capp)
 
 
@@ -55,6 +55,7 @@ def recognize_audio(file):
 
     with sr.AudioFile(file) as source:
         audio = r.record(source, duration=30)
+
         r.callback = lambda recognizer, audio: print(f"Recognizing audio...")
         text = " "
         try:
@@ -73,6 +74,7 @@ def recognize_audio(file):
                 text += " " + data
 
                 current_task.update_state(state="PROGRESS", meta={"text": text})
+
             except sr.UnknownValueError:
                 print("Could not understand audio")
 
