@@ -102,3 +102,60 @@
     font-size: 1rem;
     text-decoration: none;
   }
+  
+  .ant-pagination {
+    background-color: #fff !important;
+  }
+
+  
+  @media screen and (max-width: 1750px) {
+    .headSection {
+      width: 1200px;
+    }
+  }
+
+  @media screen and (max-width: 1430px) {
+    .headSection {
+      width: 1054px;
+    }
+  }
+
+  @media screen and (max-width: 1170px) {
+    .headSection {
+      width: 920px;
+    }
+  }
+
+  @media screen and (max-width: 1025px) {
+    .headSection {
+      width: 800px;
+    }
+  }
+
+  @media screen and (max-width: 1135px) {
+    .headSection {
+      flex-direction: column;
+
+    }
+    .headSection div:nth-child(2) {
+      flex-basis: 51px;
+    }
+  }
+
+  @media screen and (max-width: 920px) {
+    .headSection {
+      width: 700px;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    .headSection {
+      width: 600px;
+    }
+  }
+
+  @media screen and (max-width: 725px) {
+    .headSection {
+      width: 400px;
+    }
+  }
