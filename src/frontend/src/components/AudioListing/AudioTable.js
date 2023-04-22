@@ -12,7 +12,6 @@ const items = [
     label: (
       <div
         onClick={() => {
-          //   console.log(record);
         }}
       >
         View Details
@@ -39,8 +38,6 @@ const AudioTable = () => {
     } else {
       try {
         setLoading(true);
-        // Get the currently logged in user
-        // Get a reference to the subcollection that contains the user's data
         const audioToTextCollectionRef = collection(db, "audioToText");
         const audioToTextDataRef = doc(audioToTextCollectionRef, uid);
         const audioToTextSubCollectionRef = collection(
@@ -48,14 +45,11 @@ const AudioTable = () => {
           "records"
         );
 
-        // Query the subcollection to get all documents that belong to the user
         const audioToTextQuery = query(
           audioToTextSubCollectionRef,
           where("uid", "==", uid)
         );
         const audioToTextDocs = await getDocs(audioToTextQuery);
-
-        // Log the data for each document to the console
 
         audioToTextDocs.forEach((doc) => {
           setAudioRecord((audioRecord) => [...audioRecord, { ...doc.data() }]);
@@ -83,12 +77,10 @@ const AudioTable = () => {
     {
       title: "User Id",
       dataIndex: "uid",
-      //   key: "uid",
     },
     {
       title: "User Email",
       dataIndex: "email",
-      //   key: "email",
     },
     {
       title: "Generated Text",
@@ -106,8 +98,6 @@ const AudioTable = () => {
     },
     {
       title: "Action",
-      // dataIndex: "address",
-      // key: "address",
       render: (_, record) => {
         return (
           <>
