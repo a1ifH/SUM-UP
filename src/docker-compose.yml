@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    image: summarizations_api
+    restart: unless-stopped
+    ports:
+      - '5005:5005'
+    command: gunicorn --bind 0.0.0.0:5005 app:app
+    volumes:
+      - "./backend:/app"
+    depends_on:
+      - redis_broker
+      - worker
+    environment:
+
+      REDIS_HOST: redis_broker
+      REDIS_PORT: 6379
+
+  redis_broker:
+    image: redis
+    hostname: redis
+    restart: unless-stopped
+    ports:
+      - '6381:6379'
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    image: summarizations_api_celery
+    restart: unless-stopped
+    command: [celery, -A, celery_app, worker, -l, INFO]
+    volumes:
+      - "./backend:/app"
+
+    links:
+      - redis_broker
+    environment:
+
+      REDIS_HOST: redis_broker
+      REDIS_PORT: 6379
+      C_FORCE_ROOT : "True"
+    depends_on:
+      - redis_broker
