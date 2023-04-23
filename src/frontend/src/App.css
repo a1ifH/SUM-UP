@@ -1,0 +1,87 @@
+/* detail Modal */
+.detailTable {
+  margin-top: 30px;
+}
+
+
+.detailTable tr td p {
+  width: 80%;
+  line-height: 2;
+  margin-top: 10px;
+}
+
+.nav-sidebar {
+  margin: 0;
+  padding: 0;
+  width: 104px;
+  background-color: #555;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-sidebar a {
+  /* display: block; */
+  color: #f1f1f1;
+  padding: 16px;
+  text-decoration: none;
+}
+ 
+
+.nav-sidebar a:hover:not(.active) {
+  background-color: #f1f1f1;
+  color: #000;
+}
+
+.profile-item i {
+  font-size: 40px !important;
+}
+
+.profile-item p {
+  margin-top: 10px !important;
+}
+
+.profile-item {
+  text-align: center
+}
+
+.middle-nav-item {
+  margin-top: auto;
+}
+
+@media screen and (max-width: 867px) {
+  .nav-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    flex-direction: row !important;
+    justify-content: flex-end;
+  }
+
+  .middle-nav-item {
+    margin-top: 0px !important;
+  }
+
+  .profile-item i {
+    font-size: 20px !important;
+    margin-right: 20px;
+  }
+
+  .profile-item p {
+    margin-top: 0px !important;
+  }
+  
+  .profile-item {
+    display: flex;
+    /* text-align: center */
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .nav-sidebar a {
+    text-align: center;
+    float: none;
+  }
+}
