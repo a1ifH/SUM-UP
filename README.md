@@ -32,7 +32,7 @@ Step 2: Clone
 
 > Clone the repository to your local machine using the following command
 > ```shell
-git clone https://gitlab.computing.dcu.ie/asifm2/2023-ca400-asifm2-hossaia5.git
+>git clone https://gitlab.computing.dcu.ie/asifm2/2023-ca400-asifm2-hossaia5.git
 
 
 Step 3: Build Frontend
@@ -46,11 +46,11 @@ Step 4: Build Docker
 
 > You will need to build docker using the following command (must exit frontend directory)
 >```shell
-docker-compose build
+>docker-compose build
 >docker-compose up -d
 
 Step 5: Access the Application
 
 > You can view the app running on the following link
 >```shell
-localhost:5005
+>localhost:5005
