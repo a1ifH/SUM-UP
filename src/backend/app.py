@@ -4,7 +4,7 @@ import speech_recognition as sr
 from flask_restx import Api, Resource, fields
 import jsonschema
 import spacy
-
+from pathlib import Path
 from heapq import nlargest
 from flask import Flask, send_from_directory, request, send_file
 
@@ -13,6 +13,7 @@ from celery.result import AsyncResult
 from gtts import gTTS
 import os
 import docx
+
 
 app = Flask(__name__, static_folder=None)
 app.config['UPLOAD_FOLDER'] = Path(__file__).absolute().parent / "audios"
