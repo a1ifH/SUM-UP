@@ -1,0 +1,10 @@
+.vscode
+.idea
+venv
+/backend/venv
+__pycache_/
+backend/__pycache__/
+/backend/audios
+/frontend/node_modules
+/frontend/yarn.lock
+/frontend/build
