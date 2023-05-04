@@ -7,4 +7,3 @@ backend/__pycache__/
 /backend/audios
 /frontend/node_modules
 /frontend/yarn.lock
-/frontend/build
