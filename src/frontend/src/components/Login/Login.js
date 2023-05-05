@@ -43,7 +43,6 @@ function Login() {
     <div className={styles.container}>
       <div className={styles.headSection}>
         <div>
-          <img src={process.env.PUBLIC_URL + `/logo.png`} alt="Logo" />
         </div>
         <div>
           <h1 className="text-white">SUM-UP</h1>
