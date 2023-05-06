@@ -4,6 +4,7 @@ import { getDatabase, ref, get } from "firebase/database";
 
 import { getFirestore } from "firebase/firestore";
 
+// Firebase config file, for setting up auth, and database
 const firebaseConfig = {
   apiKey: "AIzaSyDJOvUe8EMewvjuNiFRlac6kFd1Renlbbc",
   authDomain: "sum-up-d220d.firebaseapp.com",

@@ -14,12 +14,12 @@ from gtts import gTTS
 import os
 import docx
 
-
+# setup the flask app and configure audio folder for file upload
 app = Flask(__name__, static_folder=None)
 app.config['UPLOAD_FOLDER'] = Path(__file__).absolute().parent / "audios"
 app.config['UPLOAD_FOLDER'].mkdir(exist_ok=True)
 
-
+# defining a decorator that can be useed for Flask routes and functions.
 def validate_form_data(schema):
     def decorator(f):
         def wrapper(*args, **kwargs):
@@ -27,6 +27,7 @@ def validate_form_data(schema):
             try:
                 jsonschema.validate(data, schema)
             except jsonschema.ValidationError as e:
+                #if data is invalid return error
                 return {'message': 'Invalid request payload: {}'.format(e)}, 400
             return f(*args, **kwargs)
 
@@ -34,15 +35,20 @@ def validate_form_data(schema):
 
     return decorator
 
+# this function identifies summaries, then calculates the word frquencies
+# it assigns a score to each sentence based on the word frequencies
+# and forms a summary using a collection of the top sentences
 def text_summerizer(text):
     nlp = spacy.load('en_core_web_sm')
     punctuations = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~\n'
 
     doc = nlp(text)
 
+    # filter out stop words and punc
     sentences = [sent for sent in doc.sents if not all(token.is_stop or token.text in punctuations for token in sent)]
     words = [token.text for sent in sentences for token in sent if not token.is_stop and token.text not in punctuations]
 
+    # Calculate word frequencies
     word_frequencies = {}
     for word in words:
         word = word.lower()
@@ -51,23 +57,30 @@ def text_summerizer(text):
         else:
             word_frequencies[word] += 1
 
+    # Normalise word frequencies
+
     max_frequency = max(word_frequencies.values())
     for word in word_frequencies:
         word_frequencies[word] /= max_frequency
 
+    # Calc sentences scores
     sentence_scores = {}
     for sent in sentences:
         sentence = sent.text.lower()
         sentence_scores[sent] = sum(word_frequencies.get(word.text.lower(), 0) for word in sent)
 
+    # Choose top sentence for summary
     summary_size = min(3, len(sentences))
     summary_sentences = nlargest(summary_size, sentence_scores, key=sentence_scores.get)
     summary = ' '.join(sent.text for sent in summary_sentences)
 
     return summary
 
+# app = Flask("app", static_folder=None)
+# specify location of static files
 static_dir = Path(__file__).absolute().parent.parent / "frontend/build"
 
+# setting up a route handler used for static files
 @app.get("/")
 @app.get("/<path:path>")
 def main_route(path=None):
@@ -79,7 +92,7 @@ def main_route(path=None):
         print(f"error ", e)
     return send_from_directory(static_dir, "index.html")
 
-
+# api responses & request payload models, defining the structure of exchange
 api = Api(app, doc='/swagger')
 audio_upload = api.model('FormData', {
     'file': fields.Raw(required=True, type='file', description='Audio file (WAV)'),
@@ -97,7 +110,8 @@ task_tracking_model = api.model("CeleryTaskModel", {
     "result": fields.Raw(attribute="_result"),
 }, )
 
-
+# flask RESTful API
+# performs auido to text conversion
 @api.route('/convert')
 class ConvertResponse(Resource):
     """Class for audio to text conversion"""
@@ -121,14 +135,16 @@ class ConvertResponse(Resource):
             file.save(file_path)
             task = recognize_audio.delay(file_path)
             return task
-
+        # error/exception handling
         except sr.UnknownValueError:
             return {'message': 'Unable to recognize speech'}, 400
         except Exception as e:
             print(e)
             return {'message': str(e)}, 500
 
-
+# flask RESTful API
+# performs summarization, takes in JSON payload, validates data, uses the text_summarizer to 
+# summarize and returns response
 @api.route('/summarize')
 class SummarizedResponse(Resource):
     """Class for text summarization"""
@@ -155,7 +171,8 @@ class SummarizedResponse(Resource):
         except Exception as e:
             return {'message': str(e)}, 500
 
-
+# flask RESTful API
+# for task tracking; status and result
 @api.route("/task/<task_id>", methods=["GET"])
 class TaskManager(Resource):
     """Class for task tracking"""
@@ -181,7 +198,8 @@ class TaskManager(Resource):
 
         return task
 
-
+# flask RESTful API endpoint
+# synthesises text to audio using gTTS, saves it, and returns it
 @api.route('/audio/export')
 class AudioExportResponse(Resource):
     """Class for summarize text audio export"""
@@ -190,12 +208,14 @@ class AudioExportResponse(Resource):
     @validate_form_data(text_upload)
     def post(self):
         """Endpoint for text summarization"""
+        # define the text to convert to audio
         text = request.json['text']
         tts = gTTS(text)
         filename = f"{app.config['UPLOAD_FOLDER']}/audio.wav"
         tts.save(filename)
         return send_file(filename, mimetype='audio/wav',as_attachment=True)
 
+# flask RESTful API endpoint
 @api.route('/doc/export')
 class DocumentExportResponse(Resource):
     """Class for Document text audio export"""
@@ -204,10 +224,11 @@ class DocumentExportResponse(Resource):
     @validate_form_data(text_upload)
     def post(self):
         """Endpoint for text summarization"""
+        # define the text to convert to audio
         text = request.json['text']
         doc = docx.Document()
         doc.add_paragraph(text)
-
+        # save the document as a .docx file
         filename = f"{app.config['UPLOAD_FOLDER']}/output.docx"
         doc.save(filename)
         return send_file(filename,

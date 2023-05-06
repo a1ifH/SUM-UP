@@ -6,7 +6,8 @@ from app import app as main_app
 import speech_recognition as sr
 import spacy
 
-
+# creating and configuring a celery app
+# for background task processing
 def create_celery_app(app):
     capp = Celery(
         "bg_worker",
@@ -22,7 +23,9 @@ def create_celery_app(app):
     )
     TaskBase = capp.Task
     capp.app = app
-
+    
+    # task class in order to make sure each task is being executed in the Flask app
+    # allows us to access flask features
     class ContextTask(TaskBase):
 
         abstract = True
@@ -38,27 +41,31 @@ def create_celery_app(app):
     capp.Task = ContextTask
     return capp
 
-
+# retrieve the status using job id
 def get_job(job_id, capp):
     return AsyncResult(job_id, app=capp)
 
-
+# creates the app
 celery_app = create_celery_app(main_app)
 
-
+# this task performs audio recog & converts the audio into text
 @celery_app.task(name="recognize_audio")
 def recognize_audio(file):
+    #loading the spacy English model
     nlp = spacy.load("en_core_web_sm")
+    #print&log for testing & debugging
     print(f"test: {file}")
     logging.debug(f"test: {file}")
     r = sr.Recognizer()
 
     with sr.AudioFile(file) as source:
+        #opened and recorded for 30secs
         audio = r.record(source, duration=30)
 
         r.callback = lambda recognizer, audio: print(f"Recognizing audio...")
         text = " "
         try:
+            #auido recog using googles speech recog API
             data = r.recognize_google(audio,show_all=False, language='en-US')
             text += " " + data
         except sr.UnknownValueError:

@@ -11,6 +11,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 export const AppContext = createContext();
 
+// defines the main structure 
+// defines routing of the React app
 function App() {
   const [file, setFile] = useState("");
   const [generatedText, setGeneratedText] = useState("");
