@@ -19,6 +19,9 @@ function AudioToTextConverter() {
     loader,
     setLoader,
   } = useContext(AppContext);
+// To get data from the AppContext context, use the ReactContext hook.
+
+// This function may access and alter these state variables without having to send them down through props from a parent component by using useContext and destructuring the values from AppContext.
 
   const currentUser = auth.currentUser;
 
@@ -72,8 +75,12 @@ function AudioToTextConverter() {
       console.error("Error adding document:", e);
     }
   };
+//If one of these circumstances is met, the function shows a warning message and prompts the user to fill up the text box before exiting without storing any data.
+
+// The function clears the file, generatedText, and summarizedText state variables and shows a success signal if the data is successfully saved to Firebase. If an error occurs, the function changes the loader state variable to false, records the error, and displays an error warning.
 
   let backgroundStatus = (id) => {
+// The function is used to examine the status of a long-running background job.
     if (localStorage.getItem("audioToTextConverter") != "null") {
       fetch(`${BASE_URL}/task/${id}`, {
         method: "GET",
@@ -119,6 +126,7 @@ function AudioToTextConverter() {
     }
   };
   const HandleGenerateText = () => {
+// When the user selects an audio file to be converted to text, HandleGenerateText is called. The function checks first to see if the file variable is empty, null, or undefined. If it is, a warning notice instructing the user to pick an audio file is presented. If the file type is not.wav, the user is given another warning notice.
     if ([null, "", undefined].includes(file)) {
       notification.warning({ message: "Please select your audio file" });
       return;
@@ -165,6 +173,7 @@ function AudioToTextConverter() {
   };
 
   const handleSummarizeSubmit = async () => {
+// handleSummarizeSubmit, which is called when a form for text summarizing is submitted.
     if ([null, "", undefined].includes(generatedText)) {
       notification.warning({ message: "Please fill the text field" });
       return;
@@ -221,6 +230,7 @@ function AudioToTextConverter() {
     }
   }, []);
   const handleDownloadAsTextFile = () => {
+// handleDownloadAsTextFile that handles the conversion of summarized text into a text file for download.
     if (!summarizedText) {
       notification.error({ message: "Summarized text can't be empty" });
       return;
@@ -261,6 +271,8 @@ function AudioToTextConverter() {
       });
   };
   const handleConvertAsAudioFile = () => {
+// handleConvertAsAudioFile converts summarized text into an audio file.
+
     if (!summarizedText) {
       notification.error({ message: "Summarized text can't be empty" });
       return;
